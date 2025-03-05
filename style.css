@@ -1,0 +1,161 @@
+/*
+sm >= 576px
+md >= 768px
+lg >= 992px
+xl >= 1200px
+xxl >= 1400px
+*/
+
+html,
+body {
+  background-color: var(--bs-dark);
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  grid-template-rows: 10% 1fr;
+  width: 100vw;
+  height: 100vh;
+  color: var(--bs-light);
+}
+
+header {
+  width: 100%;
+  background-color: var(--bs-primary-text-emphasis);
+  font-variant: small-caps;
+  font-size: 2.5vw;
+}
+
+header > div {
+  height: 100%;
+}
+
+.ownTitleColumn {
+  height: 100%;
+}
+
+.btn {
+  width: 30%;
+  height: 60%;
+  font-size: 1.2vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#ownSubjectsDiv {
+  display: grid;
+  grid-template-rows: 10% 1fr;
+  width: 90%;
+  border-right: 1px solid var(--bs-primary);
+}
+
+#ownSubjectTitle {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  font-size: 1.5vw;
+  padding-left: 10px;
+  margin-bottom: 1vh;
+}
+
+#ownSubjectContentDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1vh;
+  align-items: center;
+  width: 100%;
+}
+
+ul {
+  width: 100%;
+}
+
+.ownSubjectListElement {
+  width: 90%;
+  border: 1px solid var(--bs-secondary);
+  font-size: 1.2vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#ownTimetableContainerDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+
+#ownTimetableDiv{
+    height: 90%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    grid-template-rows: repeat(9,1fr);
+}
+
+main {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 20% 1fr;
+}
+
+@media (max-width: 768px) {
+  body {
+    grid-template-rows: 15% 1fr;
+  }
+  header {
+    font-size: 4vw;
+  }
+  .ownTitleColumn {
+    height: 50%;
+  }
+
+  .btn {
+    width: 30%;
+    font-size: 2.5vw;
+  }
+
+  main {
+    display: grid;
+    grid-template-rows: 20% 1fr;
+    grid-template-columns: auto;
+  }
+
+  #ownSubjectsDiv {
+    display: grid;
+    grid-template-rows: 30%;
+    font-size: larger;
+    width: 100%;
+    border-right: none;
+    border-bottom: solid 1px var(--bs-primary);
+  }
+
+  #ownSubjectTitle {
+    font-size: 3vw;
+  }
+
+  #ownSubjectContentDiv {
+    flex-direction: row;
+  }
+
+  .ownSubjectListElement {
+    width: 10%;
+    height: 80%;
+    border: 1px solid var(--bs-secondary);
+    font-size: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  #ownTimetableDiv{
+    height: 90%;
+    width: 90%;
+}
+}
