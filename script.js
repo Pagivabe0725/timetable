@@ -39,6 +39,15 @@ const lessonTimes = [
   "15:00 - 16:00",
 ];
 
+function getCoordinates(element) {
+  console.log(element);
+  const id = element.split("-")[1];
+  const row = Math.floor(id / 6) - 1;
+  const column = (id % 6) - 1;
+
+  return [row, column];
+}
+
 $(document).ready(function () {
   for (let i = 0; i < subjects.length; i++) {
     $("#ownSubjectContentDiv").append(
@@ -50,7 +59,7 @@ $(document).ready(function () {
     helper: "clone",
     cursor: "move",
     revert: "invalid",
-    start: function (event, ui) {
+    start: function (_, ui) {
       ui.helper.css("width", "10%");
       ui.helper.css("height", "5%");
     },
@@ -66,5 +75,47 @@ $(document).ready(function () {
           : ""
       }</div>`
     );
+  }
+
+  for (let i = 7; i < 54; i++) {
+    if (i % 6 !== 0) {
+      let id = `#element-${i}`;
+      $(id).droppable({
+        drop: function (_, ui) {
+          const coordinates = getCoordinates(id);
+          console.log(timeTable[coordinates[0]][coordinates[1]]);
+          if (timeTable[coordinates[0]][coordinates[1]] === "") {
+            let originParent = ui.draggable.parent().attr("id");
+            console.log(originParent);
+            let clone =
+              originParent === "ownSubjectContentDiv"
+                ? ui.draggable.clone()
+                : ui.draggable;
+            clone.draggable({
+              helper: "origin",
+              cursor: "move",
+              revert: "invalid",
+              start: function (_, ui) {
+                let parentId = ui.helper.parent().attr("id");
+                if (parentId && parentId.includes("element")) {
+                  parentsCoordinates = getCoordinates(parentId);
+                  timeTable[parentsCoordinates[0]][parentsCoordinates[1]] = "";
+                  $("#" + parentId).droppable("option", "disabled", false);
+                }
+              },
+            });
+            $(this).append(
+              clone.css({
+                position: "relative",
+                top: 0,
+                left: 0,
+              })
+            );
+            timeTable[coordinates[0]][coordinates[1]] = clone.text();
+            $(id).droppable({ disabled: true });
+          }
+        },
+      });
+    }
   }
 });
