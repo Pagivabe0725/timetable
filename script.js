@@ -48,17 +48,21 @@ function getCoordinates(element) {
   return [row, column];
 }
 
+
 $(document).ready(function () {
+
   for (let i = 0; i < subjects.length; i++) {
     $("#ownSubjectContentDiv").append(
       `<div class='ownSubjectListElement'>${subjects[i]}</div>`
     );
   }
 
+
   $(".ownSubjectListElement").draggable({
     helper: "clone",
     cursor: "move",
     revert: "invalid",
+    //snap: '.ownSubjectElement',
     start: function (_, ui) {
       ui.helper.css("width", "10%");
       ui.helper.css("height", "5%");
@@ -91,6 +95,13 @@ $(document).ready(function () {
               originParent === "ownSubjectContentDiv"
                 ? ui.draggable.clone()
                 : ui.draggable;
+            $(clone).removeClass();
+            $(clone).css("cursor", "pointer");
+            $(clone).dblclick(function () {
+              timeTable[coordinates[0]][coordinates[1]] = "";
+              $(id).droppable("option", "disabled", false);
+              $(this).remove();
+            });
             clone.draggable({
               helper: "origin",
               cursor: "move",
@@ -103,6 +114,15 @@ $(document).ready(function () {
                   $("#" + parentId).droppable("option", "disabled", false);
                 }
               },
+              stop: function (_, ui) {
+                let parentId = ui.helper.parent().attr("id");
+                if (parentId && parentId.includes("element")) {
+                  parentsCoordinates = getCoordinates(parentId);
+                  timeTable[parentsCoordinates[0]][parentsCoordinates[1]] =
+                    clone.text();
+                  $("#" + parentId).droppable({ disabled: true });
+                }
+              },
             });
             $(this).append(
               clone.css({
@@ -113,6 +133,8 @@ $(document).ready(function () {
             );
             timeTable[coordinates[0]][coordinates[1]] = clone.text();
             $(id).droppable({ disabled: true });
+
+            console.log(timeTable);
           }
         },
       });
