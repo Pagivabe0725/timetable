@@ -81,20 +81,19 @@ ul {
   cursor: pointer;
 }
 
-#ownTimetableContainerDiv{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+#ownTimetableContainerDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
-
-#ownTimetableDiv{
-    height: 90%;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(6,1fr);
-    grid-template-rows: repeat(9,1fr);
+#ownTimetableDiv {
+  height: 90%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(9, 1fr);
 }
 
 main {
@@ -154,8 +153,8 @@ main {
     cursor: pointer;
   }
 
-  #ownTimetableDiv{
+  #ownTimetableDiv {
     height: 90%;
     width: 90%;
-}
+  }
 }
