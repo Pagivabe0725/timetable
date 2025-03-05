@@ -99,6 +99,12 @@ ul {
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(9, 1fr);
 }
+.ownSubjectElement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2vw;
+}
 
 main {
   width: 100%;
@@ -166,5 +172,9 @@ main {
   #ownTimetableDiv {
     height: 90%;
     width: 90%;
+  }
+
+  .ownSubjectElement {
+    font-size: 2vw;
   }
 }

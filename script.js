@@ -55,4 +55,16 @@ $(document).ready(function () {
       ui.helper.css("height", "5%");
     },
   });
+
+  for (let i = 0; i < 54; i++) {
+    $("#ownTimetableDiv").append(
+      `<div class=" ownSubjectElement border border-primary" id="element-${i}">${
+        i % 6 === 0 && i > 0
+          ? lessonTimes[i / 6 - 1]
+          : i > 0 && i <= 5
+          ? days[i - 1]
+          : ""
+      }</div>`
+    );
+  }
 });
