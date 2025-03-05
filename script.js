@@ -24,7 +24,6 @@ const subjects = [
   "Gazdasági ismeretek",
   "Művészettörténet",
   "Digitális kultúra",
-  
 ];
 
 const days = ["Hérfő", "Kedd", "szerda", "Csütörtök", "Péntek"];
@@ -46,4 +45,14 @@ $(document).ready(function () {
       `<div class='ownSubjectListElement'>${subjects[i]}</div>`
     );
   }
+
+  $(".ownSubjectListElement").draggable({
+    helper: "clone",
+    cursor: "move",
+    revert: "invalid",
+    start: function (event, ui) {
+      ui.helper.css("width", "10%");
+      ui.helper.css("height", "5%");
+    },
+  });
 });
