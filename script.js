@@ -1,4 +1,5 @@
 let timeTable = [];
+
 for (let i = 0; i < 8; i++) {
   timeTable.push(["", "", "", "", ""]);
 }
@@ -88,9 +89,7 @@ $(document).ready(function () {
     }
   });
   $("#ownDeleteButton").click(function () {
-    if (!isEmptyArray()) {
-      localStorage.removeItem("timetable");
-    }
+    localStorage.removeItem("timetable");
   });
 
   $(".ownSubjectListElement").draggable({
@@ -103,7 +102,6 @@ $(document).ready(function () {
       ui.helper.css("height", "5%");
     },
   });
-
 
   for (let i = 0; i < 54; i++) {
     $("#ownTimetableDiv").append(
@@ -155,6 +153,29 @@ $(document).ready(function () {
           }
         },
       });
+    }
+  }
+
+  if (localStorage.getItem("timetable")) {
+    timeTable = JSON.parse(localStorage.getItem("timetable"));
+    for (let i = 7; i < 54; i++) {
+      if (i % 6 !== 0) {
+        const id = `#element-${i}`;
+        const coordinates = getCoordinates(id);
+        if (timeTable[coordinates[0]][coordinates[1]] !== "") {
+          let actualElement = $("<div>").text(
+            timeTable[coordinates[0]][coordinates[1]]
+          );
+          actualElement.css({ position: "relative", top: 0, left: 0 });
+          actualElement.draggable({
+            helper: "original",
+            cursor: "move",
+            revert: "invalid",
+          });
+          $(id).append(actualElement);
+          $(id).droppable({ disabled: true });
+        }
+      }
     }
   }
 });
