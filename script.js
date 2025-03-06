@@ -1,5 +1,4 @@
 let timeTable = [];
-
 for (let i = 0; i < 8; i++) {
   timeTable.push(["", "", "", "", ""]);
 }
@@ -111,7 +110,8 @@ $(document).ready(function () {
         buttons: {
           Törlöm: function () {
             localStorage.removeItem("timetable");
-            showAlert("Sikeres mentés", false);
+            
+            showAlert("Sikeres Törlés", false);
             $(this).dialog("close");
           },
         },
@@ -164,8 +164,20 @@ $(document).ready(function () {
               revert: "invalid",
             });
 
+            $(actualElement).dblclick(function () {
+              timeTable[coordinates[0]][coordinates[1]] = "";
+              $(id).droppable("option", "disabled", false);
+              $(this).remove();
+              showAlert("Sikeresen törölted az elemet", false);
+            });
+
             actualElement.removeClass();
-            actualElement.css({ position: "relative", top: 0, left: 0 });
+            actualElement.css({
+              position: "relative",
+              top: 0,
+              left: 0,
+              cursor: "pointer",
+            });
             if (parentId.includes("element")) {
               actualElement.draggable();
               timeTable[coordinates[0]][coordinates[1]] = actualElement.text();
@@ -197,11 +209,22 @@ $(document).ready(function () {
           let actualElement = $("<div>").text(
             timeTable[coordinates[0]][coordinates[1]]
           );
-          actualElement.css({ position: "relative", top: 0, left: 0 });
+          actualElement.css({
+            position: "relative",
+            top: 0,
+            left: 0,
+            cursor: "pointer",
+          });
           actualElement.draggable({
             helper: "original",
             cursor: "move",
             revert: "invalid",
+          });
+          $(actualElement).dblclick(function () {
+            timeTable[coordinates[0]][coordinates[1]] = "";
+            $(id).droppable("option", "disabled", false);
+            $(this).remove();
+            showAlert("Sikeresen törölted az elemet", false);
           });
           $(id).append(actualElement);
           $(id).droppable({ disabled: true });
