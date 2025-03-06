@@ -42,8 +42,6 @@ const subjects = [
   "Digitális kultúra",
 ];
 
-
-
 /**
  * @description An array representing the weekdays in a school schedule.
  * Each item corresponds to a school day from Monday to Friday.
@@ -51,7 +49,6 @@ const subjects = [
  * @constant {string[]} days - An array of weekdays used in the timetable.
  */
 const days = ["Hérfő", "Kedd", "szerda", "Csütörtök", "Péntek"];
-
 
 /**
  * @description A list of lesson time slots used in the school timetable.
@@ -133,11 +130,7 @@ function showAlert(content, error) {
   }, 2000);
 }
 
-
 $(document).ready(function () {
-
-
-
   for (let i = 0; i < subjects.length; i++) {
     $("#ownSubjectContentDiv").append(
       `<div class='ownSubjectListElement'>${subjects[i]}</div>`
@@ -172,7 +165,7 @@ $(document).ready(function () {
         buttons: {
           Törlöm: function () {
             localStorage.removeItem("timetable");
-            
+
             showAlert("Sikeres Törlés", false);
             $(this).dialog("close");
           },
