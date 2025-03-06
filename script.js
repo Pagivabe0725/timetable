@@ -39,8 +39,19 @@ const lessonTimes = [
   "15:00 - 16:00",
 ];
 
+function isEmptyArray() {
+  let empty = true;
+  timeTable.forEach((element) => {
+    element.forEach((insideElement) => {
+      if (insideElement !== "") {
+        empty = false;
+      }
+    });
+  });
+  return empty;
+}
+
 function getCoordinates(element) {
-  console.log(element);
   const id = element.split("-")[1];
   const row = Math.floor(id / 6) - 1;
   const column = (id % 6) - 1;
@@ -48,15 +59,39 @@ function getCoordinates(element) {
   return [row, column];
 }
 
+function createAlert(content, error) {
+  let myAlert = document.createElement("div");
+  myAlert.innerHTML = content;
+  myAlert.classList.add("alert", "d-block", "w-50", "position-fixed", "mb-2");
+  myAlert.classList.add(error ? "alert-danger" : "alert-success");
+  return myAlert;
+}
+
+function showAlert(content, error) {
+  const myAlert = createAlert(content, error);
+  document.body.appendChild(myAlert);
+  setTimeout(() => {
+    document.body.removeChild(myAlert);
+  }, 2000);
+}
 
 $(document).ready(function () {
-
   for (let i = 0; i < subjects.length; i++) {
     $("#ownSubjectContentDiv").append(
       `<div class='ownSubjectListElement'>${subjects[i]}</div>`
     );
   }
 
+  $("#ownSaveButton").click(function () {
+    if (!isEmptyArray()) {
+      localStorage.setItem("timetable", JSON.stringify(timeTable));
+    }
+  });
+  $("#ownDeleteButton").click(function () {
+    if (!isEmptyArray()) {
+      localStorage.removeItem("timetable");
+    }
+  });
 
   $(".ownSubjectListElement").draggable({
     helper: "clone",
@@ -68,6 +103,7 @@ $(document).ready(function () {
       ui.helper.css("height", "5%");
     },
   });
+
 
   for (let i = 0; i < 54; i++) {
     $("#ownTimetableDiv").append(
@@ -83,58 +119,39 @@ $(document).ready(function () {
 
   for (let i = 7; i < 54; i++) {
     if (i % 6 !== 0) {
-      let id = `#element-${i}`;
+      const id = `#element-${i}`;
+      const coordinates = getCoordinates(id);
       $(id).droppable({
         drop: function (_, ui) {
-          const coordinates = getCoordinates(id);
-          console.log(timeTable[coordinates[0]][coordinates[1]]);
           if (timeTable[coordinates[0]][coordinates[1]] === "") {
-            let originParent = ui.draggable.parent().attr("id");
-            console.log(originParent);
-            let clone =
-              originParent === "ownSubjectContentDiv"
-                ? ui.draggable.clone()
-                : ui.draggable;
-            $(clone).removeClass();
-            $(clone).css("cursor", "pointer");
-            $(clone).dblclick(function () {
-              timeTable[coordinates[0]][coordinates[1]] = "";
-              $(id).droppable("option", "disabled", false);
-              $(this).remove();
-            });
-            clone.draggable({
-              helper: "origin",
+            const parentId = ui.draggable.parent().attr("id");
+            const parentCoordinates = getCoordinates(parentId);
+            let actualElement = parentId.includes("element")
+              ? ui.draggable
+              : ui.draggable.clone();
+            actualElement.draggable({
+              helper: "original",
               cursor: "move",
               revert: "invalid",
-              start: function (_, ui) {
-                let parentId = ui.helper.parent().attr("id");
-                if (parentId && parentId.includes("element")) {
-                  parentsCoordinates = getCoordinates(parentId);
-                  timeTable[parentsCoordinates[0]][parentsCoordinates[1]] = "";
-                  $("#" + parentId).droppable("option", "disabled", false);
-                }
-              },
-              stop: function (_, ui) {
-                let parentId = ui.helper.parent().attr("id");
-                if (parentId && parentId.includes("element")) {
-                  parentsCoordinates = getCoordinates(parentId);
-                  timeTable[parentsCoordinates[0]][parentsCoordinates[1]] =
-                    clone.text();
-                  $("#" + parentId).droppable({ disabled: true });
-                }
-              },
             });
-            $(this).append(
-              clone.css({
-                position: "relative",
-                top: 0,
-                left: 0,
-              })
-            );
-            timeTable[coordinates[0]][coordinates[1]] = clone.text();
-            $(id).droppable({ disabled: true });
 
-            console.log(timeTable);
+            actualElement.removeClass();
+            actualElement.css({ position: "relative", top: 0, left: 0 });
+            if (parentId.includes("element")) {
+              actualElement.draggable();
+              timeTable[coordinates[0]][coordinates[1]] = actualElement.text();
+              $(this).append(actualElement);
+              $(this).droppable({ disabled: true });
+              timeTable[parentCoordinates[0]][parentCoordinates[1]] = "";
+              $("#" + parentId).droppable("option", "disabled", false);
+            } else {
+              timeTable[coordinates[0]][coordinates[1]] = actualElement.text();
+              $(this).append(actualElement);
+              $(this).droppable({ disabled: true });
+            }
+            showAlert("Sikeres hozzáadás", false);
+          } else {
+            showAlert("Sikertelen hozzáadás", true);
           }
         },
       });

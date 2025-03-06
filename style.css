@@ -29,6 +29,14 @@ header > div {
   height: 100%;
 }
 
+.alert {
+    bottom: 0;
+    left: 0;
+    margin: 0 25%;
+    animation: alertAnimation 2s ease-out forwards;
+    z-index: 15;
+  }
+
 .ownTitleColumn {
   height: 100%;
 }
