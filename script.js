@@ -1,7 +1,23 @@
+/**
+ * @description Represents a timetable as an 8x5 two-dimensional array.
+ * Each `row` corresponds to a time slot .
+ * Each `column` represents a day of the week (Monday to Friday).
+ * Initially, all values are empty strings.
+ *
+ * @constant {string[][]} timeTable - A two-dimensional array storing subjects .
+ */
+
 let timeTable = [];
 for (let i = 0; i < 8; i++) {
   timeTable.push(["", "", "", "", ""]);
 }
+
+/**
+ * @description A list of school subjects available for scheduling.
+ * Each item in the array represents a distinct subject that can be assigned to a timetable slot.
+ *
+ * @constant {string[]} subjects - An array of subject names.
+ */
 
 const subjects = [
   "Matematika",
@@ -26,8 +42,23 @@ const subjects = [
   "Digitális kultúra",
 ];
 
+
+
+/**
+ * @description An array representing the weekdays in a school schedule.
+ * Each item corresponds to a school day from Monday to Friday.
+ *
+ * @constant {string[]} days - An array of weekdays used in the timetable.
+ */
 const days = ["Hérfő", "Kedd", "szerda", "Csütörtök", "Péntek"];
 
+
+/**
+ * @description A list of lesson time slots used in the school timetable.
+ * Each item represents the start and end time of a lesson period.
+ *
+ * @constant {string[]} lessonTimes - An array of lesson time intervals.
+ */
 const lessonTimes = [
   "08:00 - 09:00",
   "09:00 - 10:00",
@@ -51,6 +82,14 @@ function isEmptyArray() {
   return empty;
 }
 
+/**
+ * @description Checks if the `timeTable` array is completely empty.
+ * Iterates through all elements and returns `true` if all cells are empty strings.
+ *
+ * @function
+ * @returns {boolean} `true` if the timetable is empty, otherwise `false`.
+ */
+
 function getCoordinates(element) {
   const id = element.split("-")[1];
   const row = Math.floor(id / 6) - 1;
@@ -58,6 +97,15 @@ function getCoordinates(element) {
 
   return [row, column];
 }
+
+/**
+ * @description Creates a Bootstrap-style alert element.
+ *
+ * @function
+ * @param {string} content - The message to be displayed inside the alert.
+ * @param {boolean} error - If `true`, creates an error alert (`alert-danger`); otherwise, a success alert (`alert-success`).
+ * @returns {HTMLDivElement} A `div` element styled as an alert.
+ */
 
 function createAlert(content, error) {
   let myAlert = document.createElement("div");
@@ -67,6 +115,16 @@ function createAlert(content, error) {
   return myAlert;
 }
 
+/**
+ * @description Displays a temporary Bootstrap-style alert on the screen.
+ * The alert disappears automatically after 2 seconds.
+ *
+ * @function
+ * @param {string} content - The message to be displayed inside the alert.
+ * @param {boolean} error - If `true`, the alert is styled as an error (`alert-danger`); otherwise, as a success (`alert-success`).
+ * @returns {void} This function does not return anything.
+ */
+
 function showAlert(content, error) {
   const myAlert = createAlert(content, error);
   document.body.appendChild(myAlert);
@@ -75,7 +133,11 @@ function showAlert(content, error) {
   }, 2000);
 }
 
+
 $(document).ready(function () {
+
+
+
   for (let i = 0; i < subjects.length; i++) {
     $("#ownSubjectContentDiv").append(
       `<div class='ownSubjectListElement'>${subjects[i]}</div>`
@@ -127,7 +189,6 @@ $(document).ready(function () {
     helper: "clone",
     cursor: "move",
     revert: "invalid",
-    //snap: '.ownSubjectElement',
     start: function (_, ui) {
       ui.helper.css("width", "10%");
       ui.helper.css("height", "5%");
