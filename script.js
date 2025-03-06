@@ -85,11 +85,42 @@ $(document).ready(function () {
 
   $("#ownSaveButton").click(function () {
     if (!isEmptyArray()) {
-      localStorage.setItem("timetable", JSON.stringify(timeTable));
+      $("#ownSaveDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: {
+          Mentem: function () {
+            localStorage.setItem("timetable", JSON.stringify(timeTable));
+            showAlert("Sikeres mentés", false);
+            $(this).dialog("close");
+          },
+        },
+      });
+
+      $("#ownSaveDialog").dialog("open");
+    } else {
+      showAlert("Nincs mit elmenteni!", true);
     }
   });
+
   $("#ownDeleteButton").click(function () {
-    localStorage.removeItem("timetable");
+    if (localStorage.getItem("timetable")) {
+      $("#ownDeleteDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: {
+          Törlöm: function () {
+            localStorage.removeItem("timetable");
+            showAlert("Sikeres mentés", false);
+            $(this).dialog("close");
+          },
+        },
+      });
+
+      $("#ownDeleteDialog").dialog("open");
+    } else {
+      showAlert("Nincs mentett órarended!", true);
+    }
   });
 
   $(".ownSubjectListElement").draggable({

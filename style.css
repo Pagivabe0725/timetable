@@ -114,6 +114,10 @@ ul {
   font-size: 1.2vw;
 }
 
+#ownSaveDialog , #ownDeleteDialog{
+  display: none;
+}
+
 main {
   width: 100%;
   display: grid;
