@@ -48,7 +48,7 @@ const subjects = [
  *
  * @constant {string[]} days - An array of weekdays used in the timetable.
  */
-const days = ["Hérfő", "Kedd", "szerda", "Csütörtök", "Péntek"];
+const days = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek"];
 
 /**
  * @description A list of lesson time slots used in the school timetable.
